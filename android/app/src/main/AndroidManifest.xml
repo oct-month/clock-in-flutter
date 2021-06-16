@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.clock_in_app">
    <application
-        android:label="clock_in_app"
+        android:label="自习室打卡"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
