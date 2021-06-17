@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import './QRViewPage.dart';
+import './LoginPage.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({Key? key}) : super(key: key);
@@ -14,25 +15,16 @@ class _IndexPageState extends State<IndexPage> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<String> _schoolCode;
 
-  Future<void> _setSchoolCode(String schoolCode) async {
-    final SharedPreferences prefs = await _prefs;
-    setState(() {
-      _schoolCode =
-          prefs.setString('school_code', schoolCode).then((bool success) {
-        if (success) {
-          return schoolCode;
-        } else {
-          return _schoolCode;
-        }
-      });
-    });
-  }
-
   @override
   void initState() {
     super.initState();
     _schoolCode = _prefs.then((SharedPreferences prefs) {
       return (prefs.getString('school_code') ?? '');
+    });
+    _schoolCode.then((value) {
+      if (value.isEmpty) {
+        this._toLoginPage();
+      }
     });
   }
 
@@ -44,35 +36,42 @@ class _IndexPageState extends State<IndexPage> {
       ),
       body: Column(
         children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Image.asset(
-              'assets/images/logo.jpg',
-              fit: BoxFit.contain,
-              alignment: Alignment.center,
-            ),
+          Image.asset(
+            'assets/images/logo.jpg',
+            fit: BoxFit.contain,
+            alignment: Alignment.center,
+          ),
+          FutureBuilder(
+            future: _schoolCode,
+            builder: (context, snapshot) {
+              return Text(
+                snapshot.data as String,
+                textAlign: TextAlign.right,
+              );
+            },
           ),
           Expanded(
-            flex: 1,
-            child: FutureBuilder(
-              future: _schoolCode,
-              builder: (context, snapshot) {
-                return Text(
-                  snapshot.data as String,
-                  textAlign: TextAlign.right,
-                );
-              },
-            ),
-          ),
-          Expanded(
-            flex: 4,
-            child: ElevatedButton(
-              onPressed: _toScannPage,
-              child: Image.asset(
-                'assets/images/scaner.png',
-                fit: BoxFit.contain,
-                alignment: Alignment.center,
-              ),
+            child: Column(
+              children: [
+                Spacer(
+                  flex: 1,
+                ),
+                OutlinedButton(
+                  style: ButtonStyle(
+                    side: MaterialStateProperty.all(BorderSide.none),
+                  ),
+                  onPressed: _toScannPage,
+                  child: Image.asset(
+                    'assets/images/scaner.png',
+                    fit: BoxFit.contain,
+                    alignment: Alignment.center,
+                    
+                  ),
+                ),
+                Spacer(
+                  flex: 2,
+                ),
+              ],
             ),
           ),
         ],
@@ -86,6 +85,18 @@ class _IndexPageState extends State<IndexPage> {
       MaterialPageRoute(
         builder: (context) {
           return QRViewPage();
+        },
+        maintainState: true,
+      ),
+    );
+  }
+
+  void _toLoginPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return LoginPage();
         },
         maintainState: true,
       ),

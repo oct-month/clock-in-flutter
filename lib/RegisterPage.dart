@@ -28,16 +28,12 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
       body: Column(
         children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Image.asset(
-              'assets/images/logo.jpg',
-              fit: BoxFit.contain,
-              alignment: Alignment.center,
-            ),
+          Image.asset(
+            'assets/images/logo.jpg',
+            fit: BoxFit.contain,
+            alignment: Alignment.center,
           ),
           Expanded(
-            flex: 5,
             child: Form(
               key: _formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -91,9 +87,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       return value!.trim().length > 0 ? null : "班级不能为空";
                     },
                   ),
-                  ElevatedButton(
-                    onPressed: _doRegister,
-                    child: Text('注册'),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _doRegister,
+                      child: Text('注册'),
+                    ),
                   ),
                 ],
               ),

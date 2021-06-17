@@ -33,42 +33,39 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body: Column(
         children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Image.asset(
-              'assets/images/logo.jpg',
-              fit: BoxFit.contain,
-              alignment: Alignment.center,
-            ),
+          Image.asset(
+            'assets/images/logo.jpg',
+            fit: BoxFit.contain,
+            alignment: Alignment.center,
           ),
           Expanded(
-            flex: 1,
-            child: TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                labelText: '学号',
-                hintText: '输入学号',
-                prefixIcon: Icon(Icons.school),
-              ),
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.done,
-              textAlign: TextAlign.left,
-              autofocus: true,
-              maxLines: 1,
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: ElevatedButton(
-              onPressed: _doLogin,
-              child: Text('登录'),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: TextButton(
-              onPressed: _toRegisterPage,
-              child: Text('没有账号？去注册...'),
+            child: Column(
+              children: [
+                TextField(
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    labelText: '学号',
+                    hintText: '输入学号',
+                    prefixIcon: Icon(Icons.school),
+                  ),
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.done,
+                  textAlign: TextAlign.left,
+                  autofocus: true,
+                  maxLines: 1,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _doLogin,
+                    child: Text('登录'),
+                  ),
+                ),
+                TextButton(
+                  onPressed: _toRegisterPage,
+                  child: Text('没有账号？去注册...'),
+                ),
+              ],
             ),
           ),
         ],
