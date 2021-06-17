@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import './Config.dart';
 
 class QRViewPage extends StatefulWidget {
   const QRViewPage({Key? key}) : super(key: key);
@@ -144,10 +147,21 @@ class _QRViewPageState extends State<QRViewPage> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
+      controller.pauseCamera();
       setState(() {
-        // TODO 扫描成功
         result = scanData;
+        String code = result!.code;
+        _doClock(code);
       });
+    });
+  }
+
+  void _doClock(String code) {
+    BaseOptions options = BaseOptions();
+    options.headers['Authorization'] = code;
+    options.contentType="application/json;charset=UTF-8";
+    Dio(options).post(Config.BASE_URL + '/api/record/add', data: {
+      "schoolCode": '41812200', // TODO
     });
   }
 
