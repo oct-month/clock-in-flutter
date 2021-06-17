@@ -50,5 +50,10 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
     <string>Can we access your camera in order to scan barcodes?</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>
