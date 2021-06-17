@@ -54,9 +54,14 @@ class _IndexPageState extends State<IndexPage> {
           ),
           Expanded(
             flex: 1,
-            child: Text(
-              '41812200',
-              textAlign: TextAlign.right,
+            child: FutureBuilder(
+              future: _schoolCode,
+              builder: (context, snapshot) {
+                return Text(
+                  snapshot.data as String,
+                  textAlign: TextAlign.right,
+                );
+              },
             ),
           ),
           Expanded(
