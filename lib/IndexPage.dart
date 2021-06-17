@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import './QRViewPage.dart';
 import './LoginPage.dart';
+import './Utils.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({Key? key}) : super(key: key);
@@ -12,15 +12,11 @@ class IndexPage extends StatefulWidget {
 }
 
 class _IndexPageState extends State<IndexPage> {
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  late Future<String> _schoolCode;
+  late Future<String> _schoolCode = Utils.getSchoolCode();
 
   @override
   void initState() {
     super.initState();
-    _schoolCode = _prefs.then((SharedPreferences prefs) {
-      return (prefs.getString('school_code') ?? '');
-    });
     _schoolCode.then((value) {
       if (value.isEmpty) {
         this._toLoginPage();
@@ -65,7 +61,6 @@ class _IndexPageState extends State<IndexPage> {
                     'assets/images/scaner.png',
                     fit: BoxFit.contain,
                     alignment: Alignment.center,
-                    
                   ),
                 ),
                 Spacer(

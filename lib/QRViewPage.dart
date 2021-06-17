@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import './Config.dart';
+import './Utils.dart';
 
 class QRViewPage extends StatefulWidget {
   const QRViewPage({Key? key}) : super(key: key);
@@ -147,7 +150,7 @@ class _QRViewPageState extends State<QRViewPage> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      controller.pauseCamera();
+      // controller.pauseCamera();
       setState(() {
         result = scanData;
         String code = result!.code;
@@ -159,9 +162,40 @@ class _QRViewPageState extends State<QRViewPage> {
   void _doClock(String code) {
     BaseOptions options = BaseOptions();
     options.headers['Authorization'] = code;
-    options.contentType="application/json;charset=UTF-8";
-    Dio(options).post(Config.BASE_URL + '/api/record/add', data: {
-      "schoolCode": '41812200', // TODO
+    // options.contentType="application/json;charset=UTF-8";
+    Utils.getSchoolCode().then((String schoolCode) {
+      Dio(options).post(Config.BASE_URL + '/api/record/add', data: {
+        "schoolCode": schoolCode,
+      }).then((resp) {
+        var data = jsonDecode(resp.data.toString());
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(data['status']),
+                content: Text(data['msg']),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('知道了'),
+                  ),
+                ],
+              );
+            });
+        if (data['status'].toString() == Config.FAIL) {
+          Fluttertoast.showToast(
+            msg: data['msg'].toString(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.white,
+            textColor: Colors.black,
+            fontSize: 16.0,
+          );
+        }
+      });
     });
   }
 

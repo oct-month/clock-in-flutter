@@ -120,7 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
           textColor: Colors.black,
           fontSize: 16.0,
         );
-        if (data['status'].toString() == 'success') {
+        if (data['status'].toString() == Config.SUCCESS) {
           Navigator.push(
             context,
             MaterialPageRoute(
