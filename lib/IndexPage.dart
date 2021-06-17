@@ -37,14 +37,22 @@ class _IndexPageState extends State<IndexPage> {
             fit: BoxFit.contain,
             alignment: Alignment.center,
           ),
-          FutureBuilder(
-            future: _schoolCode,
-            builder: (context, snapshot) {
-              return Text(
-                snapshot.data as String,
-                textAlign: TextAlign.right,
-              );
-            },
+          SizedBox(
+            width: double.infinity,
+            child: FutureBuilder(
+              future: _schoolCode,
+              builder: (context, snapshot) {
+                return Text(
+                  (snapshot.data ?? '') as String,
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    color: Colors.green[400],
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              },
+            ),
           ),
           Expanded(
             child: Column(

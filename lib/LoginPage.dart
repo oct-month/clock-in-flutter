@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -87,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
       Dio().post(Config.BASE_URL + '/api/account/login', data: {
         "schoolCode": schoolCode,
       }).then((resp) {
-        var data = jsonDecode(resp.data.toString());
+        var data = resp.data;
         Fluttertoast.showToast(
           msg: data['msg'].toString(),
           toastLength: Toast.LENGTH_SHORT,

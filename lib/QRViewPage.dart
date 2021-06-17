@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -150,7 +149,7 @@ class _QRViewPageState extends State<QRViewPage> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      // controller.pauseCamera();
+      controller.pauseCamera();
       setState(() {
         result = scanData;
         String code = result!.code;
@@ -167,7 +166,8 @@ class _QRViewPageState extends State<QRViewPage> {
       Dio(options).post(Config.BASE_URL + '/api/record/add', data: {
         "schoolCode": schoolCode,
       }).then((resp) {
-        var data = jsonDecode(resp.data.toString());
+        var data = resp.data;
+        BuildContext _pContent = context;
         showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -178,6 +178,7 @@ class _QRViewPageState extends State<QRViewPage> {
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
+                      Navigator.of(_pContent).pop();
                     },
                     child: Text('知道了'),
                   ),

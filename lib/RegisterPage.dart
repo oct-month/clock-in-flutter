@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -110,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
         "name": _nameController.text.trim(),
         "className": _classController.text.trim(),
       }).then((resp) {
-        var data = jsonDecode(resp.data.toString());
+        var data = resp.data;
         Fluttertoast.showToast(
           msg: data['msg'].toString(),
           toastLength: Toast.LENGTH_SHORT,
