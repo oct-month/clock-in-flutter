@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
         if (data['status'].toString() == Config.SUCCESS) {
           Utils.setSchoolCode(schoolCode).then((success) {
             if (success) {
-              Navigator.push(
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
@@ -106,6 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   maintainState: false,
                 ),
+                (route) => false,
               );
             } else {
               Fluttertoast.showToast(
@@ -133,6 +134,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         maintainState: false,
       ),
+      // (route) => false,
     );
   }
 }

@@ -95,14 +95,15 @@ class _IndexPageState extends State<IndexPage> {
   }
 
   void _toLoginPage() {
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
         builder: (context) {
           return LoginPage();
         },
-        maintainState: true,
+        maintainState: false,
       ),
+      (route) => false,
     );
   }
 }

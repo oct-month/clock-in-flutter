@@ -119,7 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
           fontSize: 16.0,
         );
         if (data['status'].toString() == Config.SUCCESS) {
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
               builder: (context) {
@@ -127,6 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
               },
               maintainState: false,
             ),
+            (route) => false,
           );
         }
       });
